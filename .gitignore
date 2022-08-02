@@ -1,0 +1,12 @@
+.DS_Store
+.idea
+venv
+/**/.pytest_cache
+/**/__pycache__
+/**/__pycache__/**
+ls_volume/
+pulumi_output.json
+/**/*.lock
+/**/Pulumi.**.**.yaml
+/**/node_modules
+/**/.pulumi

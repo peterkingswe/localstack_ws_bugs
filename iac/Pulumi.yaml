@@ -1,0 +1,3 @@
+name: localstack_websockets_default_route_bug
+runtime: nodejs
+description: reproducer for LS WS default route bug
