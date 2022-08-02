@@ -6,12 +6,9 @@ from botocore.config import Config
 
 
 def lambda_handler(event, context):
-    print(event)
-    print("----------------- \n -----------------")
-    print(context)
-
     req_context = event["requestContext"]
     route = req_context["routeKey"]
+
     connection_id = req_context["connectionId"]
     api_client = create_api_client(req_context)
 
@@ -35,15 +32,29 @@ def lambda_handler(event, context):
         )
 
     if route == "ping":
-        send_to_client(
-            api_client,
-            connection_id,
-            "pong",
-            {
-                "client_ts": json.loads(event["body"])["data"]["client_ts"],
-                "server_ts": round(time.time() * 1000),
-            },
-        )
+        try:
+            c_id = connection_id[:-1] + "1"
+            send_to_client(
+                api_client,
+                c_id,
+                "pong",
+                {
+                    "client_ts": json.loads(event["body"])["data"]["client_ts"],
+                    "server_ts": round(time.time() * 1000),
+                },
+            )
+        except boto3.ApiGatewayManagementApi.Client.exceptions.GoneException as e:
+            print(e)
+            send_to_client(
+                api_client,
+                connection_id,
+                "pong",
+                {
+                    "client_ts": json.loads(event["body"])["data"]["client_ts"],
+                    "server_ts": round(time.time() * 1000),
+                    "message": "exception hit"
+                },
+            )
 
     return {
         "statusCode": 200 if route != "$default" else 500,
@@ -53,7 +64,9 @@ def lambda_handler(event, context):
 
 
 def create_api_client(req_context: dict):
-    # if req_context[""]
+    # TODO issue open for this or will be opened soon | this patch is just to showcase issue
+    if req_context["stage"] is None or not req_context["stage"]:
+        req_context["stage"] = "ws"
     return boto3.client(
         "apigatewaymanagementapi",
         endpoint_url=(
