@@ -1,4 +1,4 @@
-# Localstack WS issues WIP
+# LS Default Route Issue
 
 ## Getting started
 1) run `make all`

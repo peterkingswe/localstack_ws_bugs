@@ -23,28 +23,7 @@ def base_url_ws_api() -> str:
     return pulumi_output["wsApiGw"]["apiEndpoint"] + "/ws/"
 
 
-# def test_default_route(base_url_ws_api):
-#     msg = ping_msg()
-#     # any of below should trigger default route since action prop is used to route ws requests via IAC
-#     msg["action"] = ""
-#     # del msg["action"]
-#     # msg["action"] = "route_doesnt_exist"
-#
-#     # we connect to ws server in localstack via apiEndpoint of websocket apigw
-#     ws = create_connection(base_url_ws_api)
-#     # send msg to ws
-#     ws.send(json.dumps(msg, default=str))
-#     # hangs here | errors can be seen in make get-logs-aws || in ./logs
-#     res = ws.recv()
-#     # close connection
-#     ws.close()
-#
-#     assert res["status"] is False
-#     assert res["action"] == "statusMsg"
-#     assert res["data"]["from"].lower() == "system"
-#     assert res["data"]["message"].lower() == "unknown action"
-
-
+# ping works
 def test_ping_route(base_url_ws_api):
     # create connection
     ws = create_connection(base_url_ws_api)
@@ -58,3 +37,26 @@ def test_ping_route(base_url_ws_api):
     assert res["status"] is True
     assert res["action"] == "pong"
     assert len(res["data"]) > 0
+
+# TODO not hitting default route | returns 200 | somethings off with iac
+def test_default_route(base_url_ws_api):
+    msg = ping_msg()
+
+    # any of below should trigger default route since action prop is used to route ws requests via IAC
+    # msg["action"] = ""
+    del msg["action"]
+    # msg["action"] = "route_doesnt_exist"
+
+    # connect to WS
+    ws = create_connection(base_url_ws_api)
+    # send msg to ws with no matching action should hit default
+    ws.send(json.dumps(msg, default=str))
+    # hangs here
+    res = json.loads(ws.recv())
+    # close connection
+    ws.close()
+
+    assert res["status"] is False
+    assert res["action"] == "statusMsg"
+    assert res["data"]["from"].lower() == "system"
+    assert res["data"]["message"].lower() == "unknown action"

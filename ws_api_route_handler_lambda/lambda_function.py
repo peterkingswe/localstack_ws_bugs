@@ -7,8 +7,6 @@ from botocore.config import Config
 
 def lambda_handler(event, context):
     print(event)
-    print("----------------- \n -----------------")
-    print(context)
 
     req_context = event["requestContext"]
     route = req_context["routeKey"]
@@ -53,7 +51,10 @@ def lambda_handler(event, context):
 
 
 def create_api_client(req_context: dict):
-    # if req_context[""]
+    # TODO issue open for this | this patch is just to showcase issue
+    if req_context["stage"] is None or not req_context["stage"]:
+        req_context["stage"] = "ws"
+
     return boto3.client(
         "apigatewaymanagementapi",
         endpoint_url=(
