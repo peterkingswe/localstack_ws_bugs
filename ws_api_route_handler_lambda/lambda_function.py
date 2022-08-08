@@ -32,29 +32,33 @@ def lambda_handler(event, context):
         )
 
     if route == "ping":
-        try:
-            c_id = connection_id[:-1] + "1"
-            send_to_client(
-                api_client,
-                c_id,
-                "pong",
-                {
-                    "client_ts": json.loads(event["body"])["data"]["client_ts"],
-                    "server_ts": round(time.time() * 1000),
-                },
-            )
-        except boto3.ApiGatewayManagementApi.Client.exceptions.GoneException as e:
-            print(e)
-            send_to_client(
-                api_client,
-                connection_id,
-                "pong",
-                {
-                    "client_ts": json.loads(event["body"])["data"]["client_ts"],
-                    "server_ts": round(time.time() * 1000),
-                    "message": "exception hit"
-                },
-            )
+        for x in range(0, 2, 1):
+            if x == 1:
+                c_id = connection_id
+            else:
+                c_id = connection_id[:-1] + "1"
+            try:
+                send_to_client(
+                    api_client,
+                    c_id,
+                    "pong",
+                    {
+                        "client_ts": json.loads(event["body"])["data"]["client_ts"],
+                        "server_ts": round(time.time() * 1000),
+                    },
+                )
+            except boto3.ApiGatewayManagementApi.Client.exceptions.GoneException as e:
+                print(e)
+                send_to_client(
+                    api_client,
+                    connection_id,
+                    "pong",
+                    {
+                        "client_ts": json.loads(event["body"])["data"]["client_ts"],
+                        "server_ts": round(time.time() * 1000),
+                        "message": "exception hit"
+                    },
+                )
 
     return {
         "statusCode": 200 if route != "$default" else 500,
