@@ -37,29 +37,3 @@ def test_ping_route(base_url_ws_api):
     assert res["status"] is True
     assert res["action"] == "pong"
     assert len(res["data"]) > 0
-
-# TODO works for aws but not LS
-def test_default_route(base_url_ws_api):
-    msg = ping_msg()
-
-    # any of below should trigger default route since action prop is used to route ws requests via IAC
-    # msg["action"] = ""
-    # del msg["action"]
-    msg["action"] = "route_doesnt_exist"
-
-    # connect to WS
-    ws_ls = create_connection(base_url_ws_api)
-
-    # send msg to ws with no matching action should hit default
-    ws_ls.send(json.dumps(msg, default=str))
-
-    # hangs here on localstack
-    res = json.loads(ws_ls.recv())
-
-    # close connection
-    ws_ls.close()
-
-    assert res["status"] is False
-    assert res["action"] == "statusMsg"
-    assert res["data"]["from"].lower() == "system"
-    assert res["data"]["message"].lower() == "unknown action"

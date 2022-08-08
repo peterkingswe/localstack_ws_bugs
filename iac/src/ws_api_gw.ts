@@ -21,7 +21,6 @@ export const wsApiGw = new aws.apigatewayv2.Api(
   { provider: PulumiUtil.awsProvider }
 );
 
-// export const chatApiUrl = wsApiGw.apiEndpoint;
 export const wsApiGwStage = new aws.apigatewayv2.Stage(
   "wsApiGwStage",
   {

@@ -52,7 +52,10 @@ def lambda_handler(event, context):
 
 def create_api_client(req_context: dict):
     domain_name = req_context.get("domainName", "")
-    stage_name = req_context.get("stage", "")
+    stage_name = req_context["stage"]
+
+    # TODO here
+    assert stage_name is not None
 
     return boto3.client(
         "apigatewaymanagementapi",
