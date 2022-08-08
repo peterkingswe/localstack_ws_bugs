@@ -51,14 +51,13 @@ def lambda_handler(event, context):
 
 
 def create_api_client(req_context: dict):
-    # TODO issue open for this | this patch is just to showcase issue
-    if req_context["stage"] is None or not req_context["stage"]:
-        req_context["stage"] = "ws"
+    domain_name = req_context.get("domainName", "")
+    stage_name = req_context.get("stage", "")
 
     return boto3.client(
         "apigatewaymanagementapi",
         endpoint_url=(
-                "https://" + req_context["domainName"] + "/" + req_context["stage"]
+                f"https://{domain_name}/{stage_name}"
         ),
         region_name=os.getenv("AWS_REGION", "us-west-2"),
         config=Config(connect_timeout=3, read_timeout=3, retries={"max_attempts": 2}),
