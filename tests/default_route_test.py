@@ -20,7 +20,7 @@ def ping_msg() -> dict:
 def base_url_ws_api() -> str:
     with open("../pulumi_output.json", "rb") as read_file:
         pulumi_output = json.load(read_file)
-    return pulumi_output["wsApiGw"]["apiEndpoint"] + "/ws/"
+    return pulumi_output["wsApiGw"]["apiEndpoint"] + "/"
 
 
 # ping works
@@ -38,23 +38,26 @@ def test_ping_route(base_url_ws_api):
     assert res["action"] == "pong"
     assert len(res["data"]) > 0
 
-# TODO not hitting default route | returns 200 | somethings off with iac
+# TODO works for aws but not LS
 def test_default_route(base_url_ws_api):
     msg = ping_msg()
 
     # any of below should trigger default route since action prop is used to route ws requests via IAC
     # msg["action"] = ""
-    del msg["action"]
-    # msg["action"] = "route_doesnt_exist"
+    # del msg["action"]
+    msg["action"] = "route_doesnt_exist"
 
     # connect to WS
-    ws = create_connection(base_url_ws_api)
+    ws_ls = create_connection(base_url_ws_api)
+
     # send msg to ws with no matching action should hit default
-    ws.send(json.dumps(msg, default=str))
-    # hangs here
-    res = json.loads(ws.recv())
+    ws_ls.send(json.dumps(msg, default=str))
+
+    # hangs here on localstack
+    res = json.loads(ws_ls.recv())
+
     # close connection
-    ws.close()
+    ws_ls.close()
 
     assert res["status"] is False
     assert res["action"] == "statusMsg"

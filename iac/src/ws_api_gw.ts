@@ -178,37 +178,12 @@ export const wsPingRoute = new aws.apigatewayv2.Route(
   { provider: PulumiUtil.awsProvider }
 );
 
-// export const wsHelloRoute = new aws.apigatewayv2.Route(
-//   "wsHelloRoute",
-//   {
-//     apiId: wsApiGw.id,
-//     routeKey: `hello`,
-//     target: wsIntegration.id.apply((id) => "integrations/" + id),
-//   },
-//   { provider: PulumiUtil.awsProvider }
-// );
-//
-// export const wsChatMessageRoute = new aws.apigatewayv2.Route(
-//   "wsChatMessageRoute",
-//   {
-//     apiId: wsApiGw.id,
-//     routeKey: `chatMessage`,
-//     target: wsIntegration.id.apply((id) => "integrations/" + id),
-//   },
-//   { provider: PulumiUtil.awsProvider }
-// );
-
-// // remove stage name and protocol from url to get domain
-// export const wsChatApiDomain = pulumi
-//   .all([wsChatUrl, wsApiGwStage.name])
-//   .apply(([url, stage]) =>
-//     url.replace("/" + stage, "").replace(/(\/|wss?:)/gi, "")
-//   );
-//
-// // used by lambdas that need to send to websocket clients
-// export const wsChatApiEndpointUrl = pulumi
-//   .all([wsChatUrl])
-//   .apply(([url]) => url.replace(/^wss?:\/\//gi, "https://"));
-//
-// export const wsApiStageName = wsApiGwStage.name;
-// // wsChatApiDomain.apply(u => console.log('****** wsChatApiDomain', u));
+export const wsHelloRoute = new aws.apigatewayv2.Route(
+  "wsHelloRoute",
+  {
+    apiId: wsApiGw.id,
+    routeKey: `hello`,
+    target: wsIntegration.id.apply((id) => "integrations/" + id),
+  },
+  { provider: PulumiUtil.awsProvider }
+);

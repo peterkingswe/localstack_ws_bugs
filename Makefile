@@ -19,7 +19,7 @@ LOCALSTACK_HOSTNAME=localhost.localstack.cloud
 # ==============================
 
 # build everything && install dependencies
-all: up install-iac-deps install-test-deps build-pulumi #run-test
+all: up install-iac-deps install-test-deps build-pulumi run-test
 # tears down everything
 cleanup: down reset-iac remove-test-deps
 # get the localstack logs

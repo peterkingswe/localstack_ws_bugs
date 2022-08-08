@@ -19,10 +19,6 @@ PulumiUtil.awsProvider = new aws.Provider("localstack", {
     accessKey: "test",
     secretKey: "test",
     region: REGION,
-    // list of supported features
-    // https://docs.localstack.cloud/aws/feature-coverage/
-    // list of feature status
-    // https://app.localstack.cloud/status
     endpoints: [{
         accessanalyzer: `${lsEndpoint}`,
         account: `${lsEndpoint}`,
