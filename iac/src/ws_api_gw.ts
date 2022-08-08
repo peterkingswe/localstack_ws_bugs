@@ -86,28 +86,6 @@ export const wsIntegration = new aws.apigatewayv2.Integration(
   }
 );
 
-// api keys are required for access
-// const apikeys = awsx.apigateway.createAssociatedAPIKeys(
-//   mkItemName("ws-chat-api-keys"),
-//   {
-//     usagePlan: {
-//       apiStages: [
-//         {
-//           apiId: wsApiGw.id,
-//           stage: wsApiGwStage.name,
-//         },
-//       ],
-//     },
-//     apiKeys: [
-//       {
-//         name: "the-key",
-//       },
-//     ],
-//   },
-//   { provider: PulumiUtil.awsProvider }
-// );
-// export const chatApiKeyValue = apikeys.keys[0].apikey.value;
-
 // allow lambda invoke api-gw so it can interact with other websockets
 export const wsLambdaInvokeApiGwPolicy = new aws.iam.Policy(
   "lambdaInvokeApiGwPolicy",
@@ -173,16 +151,6 @@ export const wsPingRoute = new aws.apigatewayv2.Route(
   {
     apiId: wsApiGw.id,
     routeKey: `ping`,
-    target: wsIntegration.id.apply((id) => "integrations/" + id),
-  },
-  { provider: PulumiUtil.awsProvider }
-);
-
-export const wsHelloRoute = new aws.apigatewayv2.Route(
-  "wsHelloRoute",
-  {
-    apiId: wsApiGw.id,
-    routeKey: `hello`,
     target: wsIntegration.id.apply((id) => "integrations/" + id),
   },
   { provider: PulumiUtil.awsProvider }
