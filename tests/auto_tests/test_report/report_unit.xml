@@ -1,14 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.063" timestamp="2023-10-26T16:27:37.265452" hostname="Peters-MacBook-Pro.local"><testcase classname="ws_chrome_header_test" name="test_connect_route_should_have_auth_header_passed_back_to_client_from_handshake" time="0.031"><failure message="AssertionError: assert 'sec-websocket-protocol' in {'connection': 'Upgrade', 'date': 'Thu, 26 Oct 2023 20:27:37 GMT', 'sec-websocket-accept': '5l70ikHP2DSfVvFKAqxgW/qZyjI=', 'server': 'Python/3.11 websockets/11.0.3', ...}">base_url_ws_api = 'ws://host.docker.internal:4510'
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.052" timestamp="2023-10-26T16:34:16.910440" hostname="Peters-MacBook-Pro.local"><testcase classname="ws_chrome_header_test" name="test_connect_route_should_have_auth_header_passed_back_to_client_from_handshake" time="0.021"><failure message="AssertionError: assert 'sec-websocket-protocol' in {'connection': 'Upgrade', 'date': 'Thu, 26 Oct 2023 20:34:16 GMT', 'sec-websocket-accept': 'W8GI1AHNxrW4MHILdHahbOGvNGE=', 'server': 'Python/3.11 websockets/11.0.3', ...}">base_url_ws_api = 'ws://host.docker.internal:4510'
 
     def test_connect_route_should_have_auth_header_passed_back_to_client_from_handshake(base_url_ws_api):
         # create connection
         ws = create_connection(base_url_ws_api)
         # get headers &amp;&amp; standardize keys to lower
-        headers = dict((k.lower(), v) for k, v in ws.headers.items())
+        headers = dict((k.lower(), v) for k, v in ws.handshake_response.headers.items())
+        # headers = dict((k.lower(), v) for k, v in ws.headers.items())
         # close connection
         ws.close()
     
 &gt;       assert "sec-websocket-protocol" in headers
-E       AssertionError: assert 'sec-websocket-protocol' in {'connection': 'Upgrade', 'date': 'Thu, 26 Oct 2023 20:27:37 GMT', 'sec-websocket-accept': '5l70ikHP2DSfVvFKAqxgW/qZyjI=', 'server': 'Python/3.11 websockets/11.0.3', ...}
+E       AssertionError: assert 'sec-websocket-protocol' in {'connection': 'Upgrade', 'date': 'Thu, 26 Oct 2023 20:34:16 GMT', 'sec-websocket-accept': 'W8GI1AHNxrW4MHILdHahbOGvNGE=', 'server': 'Python/3.11 websockets/11.0.3', ...}
 
-ws_chrome_header_test.py:20: AssertionError</failure></testcase></testsuite></testsuites>
+ws_chrome_header_test.py:21: AssertionError</failure></testcase></testsuite></testsuites>
