@@ -6,18 +6,20 @@ from botocore.config import Config
 
 
 def lambda_handler(event, context):
-    print(event)
-    print("----------------- \n -----------------")
-    print(context)
-    print("----------------- \n -----------------")
 
     req_context = event["requestContext"]
     route = req_context["routeKey"]
     connection_id = req_context["connectionId"]
     api_client = create_api_client(req_context)
+    headers = {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+        "Access-Control-Allow-Credentials": "true",
+        "Sec-Websocket-Protocol": "auth"
+    }
 
     if route == "$connect":
-        print("$connected")
+        return {"statusCode": 200, "headers": headers, "body": 'connected'}
 
     if route == "$disconnect":
         print("$disconnected")
