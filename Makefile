@@ -9,7 +9,7 @@ PULUMI_BACKEND_URL=file://
 ENDPOINT=http://localhost:4566
 AWS_ACCESS_KEY=test
 AWS_SECRET_ACCESS_KEY=test
-LOCALSTACK_HOSTNAME=localhost.localstack.cloud
+# LOCALSTACK_HOSTNAME=localhost.localstack.cloud
 
 .PHONY: all cleanup get-logs-aws run-test
 
@@ -27,7 +27,6 @@ get-logs-aws:
 	docker logs localstack -f
 # run the test -> will come back as pass since we dont check for return but print from within lambda should show up in logs
 run-test:
-	export LOCALSTACK_HOSTNAME=$(LOCALSTACK_HOSTNAME); \
 	source ./venv/bin/activate; \
 	cd tests; \
 	pytest -s;
@@ -56,8 +55,8 @@ run-test:
 # Raw recipes
 # ==============================
 up:
-	export LOCALSTACK_HOSTNAME=$(LOCALSTACK_HOSTNAME); \
 	docker-compose up -d;
+# 	export LOCALSTACK_HOSTNAME=$(LOCALSTACK_HOSTNAME); \
 
 install-iac-deps:
 	cd ./iac/ && yarn install;
