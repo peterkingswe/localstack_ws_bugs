@@ -1,5 +1,4 @@
 import * as aws from "@pulumi/aws";
-import * as awsx from "@pulumi/awsx";
 import * as pulumi from "@pulumi/pulumi";
 import {PulumiUtil} from "./pulumi-provider"
 import {wsLambda, wsLambdaRole} from "./ws_api_route_handler_lambda"
@@ -20,6 +19,9 @@ export const wsApiGw = new aws.apigatewayv2.Api(
   },
   { provider: PulumiUtil.awsProvider }
 );
+
+export const wsApiUrl = wsApiGw.apiEndpoint;
+
 
 // export const chatApiUrl = wsApiGw.apiEndpoint;
 export const wsApiGwStage = new aws.apigatewayv2.Stage(
@@ -64,8 +66,6 @@ const allowApiGwInvokeWsLambda = new aws.lambda.Permission(
   { provider: PulumiUtil.awsProvider }
 );
 
-// export const wsChatUrl = wsApiGwStage.invokeUrl;
-// wsChatUrl.apply(u => console.log('**** wsurl=', u));
 
 export const wsIntegration = new aws.apigatewayv2.Integration(
   "wsIntegration",
@@ -85,28 +85,6 @@ export const wsIntegration = new aws.apigatewayv2.Integration(
     ],
   }
 );
-
-// api keys are required for access
-// const apikeys = awsx.apigateway.createAssociatedAPIKeys(
-//   mkItemName("ws-chat-api-keys"),
-//   {
-//     usagePlan: {
-//       apiStages: [
-//         {
-//           apiId: wsApiGw.id,
-//           stage: wsApiGwStage.name,
-//         },
-//       ],
-//     },
-//     apiKeys: [
-//       {
-//         name: "the-key",
-//       },
-//     ],
-//   },
-//   { provider: PulumiUtil.awsProvider }
-// );
-// export const chatApiKeyValue = apikeys.keys[0].apikey.value;
 
 // allow lambda invoke api-gw so it can interact with other websockets
 export const wsLambdaInvokeApiGwPolicy = new aws.iam.Policy(
@@ -177,38 +155,3 @@ export const wsPingRoute = new aws.apigatewayv2.Route(
   },
   { provider: PulumiUtil.awsProvider }
 );
-
-// export const wsHelloRoute = new aws.apigatewayv2.Route(
-//   "wsHelloRoute",
-//   {
-//     apiId: wsApiGw.id,
-//     routeKey: `hello`,
-//     target: wsIntegration.id.apply((id) => "integrations/" + id),
-//   },
-//   { provider: PulumiUtil.awsProvider }
-// );
-//
-// export const wsChatMessageRoute = new aws.apigatewayv2.Route(
-//   "wsChatMessageRoute",
-//   {
-//     apiId: wsApiGw.id,
-//     routeKey: `chatMessage`,
-//     target: wsIntegration.id.apply((id) => "integrations/" + id),
-//   },
-//   { provider: PulumiUtil.awsProvider }
-// );
-
-// // remove stage name and protocol from url to get domain
-// export const wsChatApiDomain = pulumi
-//   .all([wsChatUrl, wsApiGwStage.name])
-//   .apply(([url, stage]) =>
-//     url.replace("/" + stage, "").replace(/(\/|wss?:)/gi, "")
-//   );
-//
-// // used by lambdas that need to send to websocket clients
-// export const wsChatApiEndpointUrl = pulumi
-//   .all([wsChatUrl])
-//   .apply(([url]) => url.replace(/^wss?:\/\//gi, "https://"));
-//
-// export const wsApiStageName = wsApiGwStage.name;
-// // wsChatApiDomain.apply(u => console.log('****** wsChatApiDomain', u));
