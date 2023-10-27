@@ -5,4 +5,7 @@
    1) make all will build everything, install deps, and run test
 
 ## Issue
-header needed for chrome browser not being returned
+closing browser doesn't trigger disconnect route for websockets
+
+
+In AWS the disconnect route gets called once the window is closed
