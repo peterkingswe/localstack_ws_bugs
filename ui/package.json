@@ -1,0 +1,14 @@
+{
+  "name": "ui",
+  "version": "1.0.0",
+  "description": "simple UI to test",
+  "main": "index.html",
+  "scripts": {
+    "run-ui": "web-dev-server --node-resolve --open"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@web/dev-server": "^0.4.0"
+  }
+}
