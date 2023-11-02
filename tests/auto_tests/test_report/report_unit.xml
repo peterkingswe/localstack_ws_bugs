@@ -1,8 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.035" timestamp="2023-10-27T10:23:59.278787" hostname="Peters-MacBook-Pro.local"><testcase classname="ws_chrome_header_test" name="test_connect_route_should_have_auth_header_passed_back_to_client_from_handshake" time="0.000"><error message="failed on setup with &quot;KeyError: 'wsApiUrl'&quot;">@pytest.fixture
-    def base_url_ws_api() -&gt; str:
-        with open("../pulumi_output.json", "rb") as read_file:
-            pulumi_output = json.load(read_file)
-&gt;       return pulumi_output["wsApiUrl"]
-E       KeyError: 'wsApiUrl'
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.047" timestamp="2023-11-02T10:55:29.756750" hostname="Peters-MacBook-Pro.local"><testcase classname="ws_chrome_header_test" name="test_connect_route_should_have_auth_header_passed_back_to_client_from_handshake" time="0.012"><failure message="AssertionError: assert 'sec-websocket-protocol' in {'connection': 'Upgrade', 'date': 'Thu, 02 Nov 2023 14:55:29 GMT', 'sec-websocket-accept': 'S07INeuCirvJzllD5GDLbncAQtI=', 'server': 'Python/3.11 websockets/11.0.3', ...}">base_url_ws_api = 'ws://host.docker.internal:4510'
 
-ws_chrome_header_test.py:9: KeyError</error></testcase></testsuite></testsuites>
+    def test_connect_route_should_have_auth_header_passed_back_to_client_from_handshake(base_url_ws_api):
+        # create connection
+        ws = create_connection(base_url_ws_api)
+        # get headers &amp;&amp; standardize keys to lower
+        headers = dict((k.lower(), v) for k, v in ws.handshake_response.headers.items())
+        # headers = dict((k.lower(), v) for k, v in ws.headers.items())
+        # close connection
+        ws.close()
+    
+&gt;       assert "sec-websocket-protocol" in headers
+E       AssertionError: assert 'sec-websocket-protocol' in {'connection': 'Upgrade', 'date': 'Thu, 02 Nov 2023 14:55:29 GMT', 'sec-websocket-accept': 'S07INeuCirvJzllD5GDLbncAQtI=', 'server': 'Python/3.11 websockets/11.0.3', ...}
+
+ws_chrome_header_test.py:21: AssertionError</failure></testcase></testsuite></testsuites>

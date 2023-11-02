@@ -88,3 +88,6 @@ install-test-deps:
 
 remove-test-deps:
 	rm -rf ./venv
+
+run-ui:
+	cd ui && npm run run-ui
