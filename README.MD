@@ -6,7 +6,9 @@
 2) for back to back fresh runs, run `make cleanup all` in the terminal
 
 ## Issue
-closing browser doesn't trigger disconnect route for websockets
-
-
-In AWS the disconnect route gets called once the window is closed
+Look to UI, red buttons mean issue with LS
+1) WS default not triggering with incorrect routeKey send - https://github.com/localstack/localstack/issues/6615
+   2) https://docs.aws.amazon.com/apigateway/latest/developerguide/websocket-api-develop-routes.html
+3) WS connect failing when client send auth token in header - https://github.com/localstack/localstack/issues/6521
+3) WS not timing out after being idle for 10 min - issue coming soon
+   4) https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html (Idle Connection Timeout)
