@@ -19,17 +19,18 @@ AWS_SECRET_ACCESS_KEY=test
 # ==============================
 
 # build everything && install dependencies
-all: up install-iac-deps install-test-deps build-pulumi run-ui
+all: up install-iac-deps build-pulumi run-ui
 # tears down everything
-cleanup: down reset-iac remove-test-deps
+cleanup: down reset-iac
 # get the localstack logs
 get-logs-aws:
 	docker logs localstack -f
+
 # run the test -> will come back as pass since we dont check for return but print from within lambda should show up in logs
-run-test:
-	source ./venv/bin/activate; \
-	cd tests; \
-	pytest -s;
+#run-test:
+#	source ./venv/bin/activate; \
+#	cd tests; \
+#	pytest -s;
 
 # =======
 # localstack aws profile
@@ -71,17 +72,6 @@ reset-iac:
 	rm pulumi_output.json || true; \
 	rm -rf ls_volume || true; \
 	cd ./iac/ && rm -rf .pulumi Pulumi.*.ls_local.yaml node_modules || true;
-
-install-test-deps:
-	python3 -m venv --clear venv
-	( \
-	source ./venv/bin/activate;\
-	python3 -m pip install --upgrade pip;\
-	pip3 install -r requierments-test.txt;\
-	);
-
-remove-test-deps:
-	rm -rf ./venv
 
 run-ui:
 	cp pulumi_output.json ui/
