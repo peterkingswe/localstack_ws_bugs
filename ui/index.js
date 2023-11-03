@@ -62,8 +62,19 @@ $.getJSON("./pulumi_output.json", function (json) {
         socket = undefined;
     });
 
-    // TODO when should default trigger
     $("#ws-default").click(()=>{
+        if (!hasConnection()){
+            return;
+        }
+        socket.send({
+            action: "idk_what_action_this_is",
+            data: {"client_ts": new Date().toLocaleDateString()}
+        });
+        console.log("default pressed");
+    });
+
+
+    $("#ws-route-not-matching").click(()=>{
         if (!hasConnection()){
             return;
         }
@@ -71,7 +82,7 @@ $.getJSON("./pulumi_output.json", function (json) {
             action: "idk_what_action_this_is",
             data: {"client_ts": new Date().toLocaleDateString()}
         }));
-        console.log("default pressed");
-    })
+        console.log("route not matching pressed");
+    });
 
 });
