@@ -85,4 +85,30 @@ $.getJSON("./pulumi_output.json", function (json) {
         console.log("route not matching pressed");
     });
 
+    $("#ws-connection-idle-timeout").click(()=>{
+        if (!hasConnection()){
+            return;
+        }
+        alert("if you wait patiently for 10 min without clicking any other btns then disconnect should be called, refresh page to cancel");
+        $(":button").addClass('d-none');
+        var timer2 = "10:03";
+        var interval = setInterval(function() {
+            var timer = timer2.split(':');
+            var minutes = parseInt(timer[0], 10);
+            var seconds = parseInt(timer[1], 10);
+            --seconds;
+            minutes = (seconds < 0) ? --minutes : minutes;
+            seconds = (seconds < 0) ? 59 : seconds;
+            seconds = (seconds < 10) ? '0' + seconds : seconds;
+            $('.countdown').html(minutes + ':' + seconds);
+            if (minutes < 0) clearInterval(interval);
+            //check if both minutes and seconds are 0
+            if ((seconds <= 0) && (minutes <= 0)){
+                clearInterval(interval);
+                $(":button").removeClass('d-none');
+                $('.countdown').html("Websocket Localstack Test");
+            }
+            timer2 = minutes + ':' + seconds;
+        }, 1000);
+    });
 });

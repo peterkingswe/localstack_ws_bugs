@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="w-100 bg-secondary p-3">
-    <h1 class="m-auto text-center text-secondary-emphasis">Websocket Localstack Test</h1>
+    <h1 class="m-auto text-center text-secondary-emphasis countdown">Websocket Localstack Test</h1>
 </div>
 <br>
 <div class="container text-center">
@@ -27,7 +27,10 @@
         <div class="col-4 mt-4">
             <button id="ws-route-not-matching" class="btn btn-primary">Ws action/route doesn't exist</button>
         </div>
-<!--        TODO Idle Connection Timeout	10 minutes-->
+<!--        TODO idle not disconnecting after 10 min as per AWS but LS Container does remove itself -->
+        <div class="col-4 mt-4">
+            <button id="ws-connection-idle-timeout" class="btn btn-primary">idle timeout test (default 10 min)</button>
+        </div>
     </div>
 </div>
 </body>
