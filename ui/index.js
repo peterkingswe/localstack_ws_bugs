@@ -1,4 +1,13 @@
 $.getJSON("./pulumi_output.json", function (json) {
+
+    const hasConnection = ()=>{
+        if (!socket){
+            alert("connect button must be pressed");
+            return false;
+        }
+        return true
+    }
+
     let ws_url = json.wsApiUrl
     let socket = undefined;
     console.log(ws_url)
@@ -33,17 +42,35 @@ $.getJSON("./pulumi_output.json", function (json) {
 
     });
 
-    // TODO ping doesn't work
     $("#ws-ping").click(()=>{
-        socket.send({
+        if (!hasConnection()){
+            return;
+        }
+        socket.send(JSON.stringify({
             action: "ping",
             data: {"client_ts": new Date().toLocaleDateString()}
-        })
+        }));
         console.log("ping pressed");
     });
 
     $("#ws-disconnect").click(()=>{
+        if (!hasConnection()){
+            return;
+        }
         socket.close();
+        socket = undefined;
     });
+
+    // TODO when should default trigger
+    $("#ws-default").click(()=>{
+        if (!hasConnection()){
+            return;
+        }
+        socket.send(JSON.stringify({
+            action: "idk_what_action_this_is",
+            data: {"client_ts": new Date().toLocaleDateString()}
+        }));
+        console.log("default pressed");
+    })
 
 });
