@@ -105,6 +105,7 @@ $.getJSON("./pulumi_output.json", function (json) {
         }
         alert("if you wait patiently for 10 min without clicking any other btns then disconnect should be called, refresh page to cancel");
         $(":button").addClass('d-none');
+        $("#whatIsLife").addClass('d-none');
         var timer2 = "10:03";
         var interval = setInterval(function () {
             var timer = timer2.split(':');
@@ -120,6 +121,7 @@ $.getJSON("./pulumi_output.json", function (json) {
             if ((seconds <= 0) && (minutes <= 0)) {
                 clearInterval(interval);
                 $(":button").removeClass('d-none');
+                $("#whatIsLife").removeClass('d-none');
                 $('.countdown').html("Websocket Localstack Test");
             }
             timer2 = minutes + ':' + seconds;
