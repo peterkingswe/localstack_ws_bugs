@@ -90,6 +90,5 @@ remove-test-deps:
 	rm -rf ./venv
 
 run-ui:
-	#WS_URL=$$(jq -r '.wsApiUrl' pulumi_output.json)
 	cp pulumi_output.json ui/
 	cd ui && npm run run-ui

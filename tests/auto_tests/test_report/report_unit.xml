@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.058" timestamp="2023-11-02T15:20:09.382594" hostname="Peters-MacBook-Pro.local"><testcase classname="ws_chrome_header_test" name="test_connect_route_should_have_auth_header_passed_back_to_client_from_handshake" time="0.024"><failure message="AssertionError: assert 'sec-websocket-protocol' in {'connection': 'Upgrade', 'date': 'Thu, 02 Nov 2023 19:20:09 GMT', 'sec-websocket-accept': 'C6gkVmKE7KMBygPZbYg9GttsJ80=', 'server': 'Python/3.11 websockets/11.0.3', ...}">base_url_ws_api = 'ws://host.docker.internal:4510'
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.044" timestamp="2023-11-03T10:04:14.027423" hostname="Peters-MacBook-Pro.local"><testcase classname="ws_chrome_header_test" name="test_connect_route_should_have_auth_header_passed_back_to_client_from_handshake" time="0.013"><failure message="AssertionError: assert 'sec-websocket-protocol' in {'connection': 'Upgrade', 'date': 'Fri, 03 Nov 2023 14:04:14 GMT', 'sec-websocket-accept': 'qlKzNZ69etyEOpJWbLyQLkPWNSw=', 'server': 'Python/3.11 websockets/11.0.3', ...}">base_url_ws_api = 'ws://host.docker.internal:4510'
 
     def test_connect_route_should_have_auth_header_passed_back_to_client_from_handshake(base_url_ws_api):
         # create connection
@@ -10,6 +10,6 @@
         ws.close()
     
 &gt;       assert "sec-websocket-protocol" in headers
-E       AssertionError: assert 'sec-websocket-protocol' in {'connection': 'Upgrade', 'date': 'Thu, 02 Nov 2023 19:20:09 GMT', 'sec-websocket-accept': 'C6gkVmKE7KMBygPZbYg9GttsJ80=', 'server': 'Python/3.11 websockets/11.0.3', ...}
+E       AssertionError: assert 'sec-websocket-protocol' in {'connection': 'Upgrade', 'date': 'Fri, 03 Nov 2023 14:04:14 GMT', 'sec-websocket-accept': 'qlKzNZ69etyEOpJWbLyQLkPWNSw=', 'server': 'Python/3.11 websockets/11.0.3', ...}
 
 ws_chrome_header_test.py:21: AssertionError</failure></testcase></testsuite></testsuites>
