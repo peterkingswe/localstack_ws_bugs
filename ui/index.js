@@ -11,6 +11,7 @@ $.getJSON("./pulumi_output.json", function (json) {
     let ws_url = json.wsApiUrl
     let socket = undefined;
     console.log(ws_url)
+
     $("#ws-connect").click(()=>{
         socket = new WebSocket(ws_url);
         // Connection opened
