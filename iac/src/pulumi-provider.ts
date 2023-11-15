@@ -10,6 +10,9 @@ export class PulumiUtil {
     static env: string;
 }
 
+// TODO use this for aws deployment
+// PulumiUtil.awsProvider = new aws.Provider('aws', {region: REGION});
+
 
 PulumiUtil.awsProvider = new aws.Provider("localstack", {
     skipCredentialsValidation: true,

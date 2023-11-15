@@ -3,7 +3,8 @@ version: "3.8"
 services:
   localstack:
     container_name: "localstack"
-    image: localstack/localstack-pro:2.3.2
+#    image: localstack/localstack-pro:2.3.2
+    image: localstack/localstack-pro:latest
     networks:
       - devnet
     ports:

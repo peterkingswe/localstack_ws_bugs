@@ -6,17 +6,33 @@ from botocore.config import Config
 
 
 def lambda_handler(event, context):
+    print("*" * 10)
+    print(event["requestContext"])
+    print("*" * 10)
+
+    print("!" * 10)
+    print(event)
+    print("!" * 10)
+
+    inHeadersBugs = {}
+
+    if "headers" in event:
+        for k in event["headers"]:
+            inHeadersBugs[k.lower()] = event["headers"][k]
 
     req_context = event["requestContext"]
     route = req_context["routeKey"]
     connection_id = req_context["connectionId"]
     api_client = create_api_client(req_context)
+
     headers = {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
         "Access-Control-Allow-Credentials": "true",
-        "Sec-Websocket-Protocol": "auth"
     }
+
+    if "sec-websocket-protocol" in inHeadersBugs:
+        headers["Sec-Websocket-Protocol"] = "auth"
 
     if route == "$connect":
         return {"statusCode": 200, "headers": headers, "body": 'connected'}

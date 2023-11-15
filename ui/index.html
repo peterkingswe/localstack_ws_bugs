@@ -180,10 +180,13 @@
 <div class="container text-center">
     <div class="row">
         <div class="col-4 mt-4">
-            <button id="ws-connect" class="btn btn-primary">WS Connect</button>
+            <button id="ws-connect" class="btn btn-danger">WS Connect with stageName appended (works in AWS but not in LS, connect will work but postToConnections fail)</button>
         </div>
         <div class="col-4 mt-4">
-            <button id="ws-connect-with-token" class="btn btn-danger">WS Connect with token</button>
+            <button id="ws-connect-with-token" class="btn btn-danger">WS Connect with token with stageName appended (works in AWS but not in LS, connect will work but postToConnections fail)</button>
+        </div>
+        <div class="col-4 mt-4">
+            <button id="ws-connect-without-stage-name" class="btn btn-primary">WS Connect without stageName appended (only way to get postToConnections to work in LS is to not append stageName but this fails on connect in AWS)</button>
         </div>
         <div class="col-4 mt-4">
             <button id="ws-disconnect" class="btn btn-primary">WS Disconnect</button>
