@@ -12,4 +12,4 @@ Look to UI, red buttons mean issue with LS
 2) WS connect failing when client send auth token in header - https://github.com/localstack/localstack/issues/6521
 3) WS not timing out after being idle for 10 min - https://github.com/localstack/localstack/issues/9553
    1) https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html (Idle Connection Timeout)
-4) AWS needs stageName to be appended to apiEndpoint in order to invoke it, in Localstack this causes postToConnection to fail - Issue coming soon
+4) AWS needs stageName to be appended to apiEndpoint in order to invoke it, in Localstack this causes postToConnection to fail - https://github.com/localstack/localstack/issues/9649
